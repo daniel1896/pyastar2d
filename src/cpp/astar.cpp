@@ -31,6 +31,12 @@ inline float linf_norm(int i0, int j0, int i1, int j1) {
   return std::max(std::abs(i0 - i1), std::abs(j0 - j1));
 }
 
+// L_2 norm
+// https://www.geeksforgeeks.org/program-calculate-distance-two-points/
+inline float l2_norm(int i0, int j0, int i1, int j1) {
+  return sqrt(pow(i0 - i1, 2) + pow(j0 - j1, 2) * 1.0);;
+}
+
 // L_1 norm (manhattan distance)
 inline float l1_norm(int i0, int j0, int i1, int j1) {
   return std::abs(i0 - i1) + std::abs(j0 - j1);
@@ -105,7 +111,7 @@ static PyObject *astar(PyObject *self, PyObject *args) {
         if (new_cost < costs[nbrs[i]]) {
           // estimate the cost to the goal based on legal moves
           if (diag_ok) {
-            heuristic_cost = linf_norm(nbrs[i] / w, nbrs[i] % w,
+            heuristic_cost = l2_norm(nbrs[i] / w, nbrs[i] % w,
                                        goal    / w, goal    % w);
           }
           else {
